@@ -8,4 +8,8 @@ find_package(GMock)
 find_package(GTest)
 find_package(Boost COMPONENTS program_options REQUIRED)
 
+include_directories(${CMAKE_SOURCE_DIR})
+
+add_subdirectory(utils)
 add_subdirectory(day1)
+add_subdirectory(day2)

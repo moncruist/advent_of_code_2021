@@ -15,55 +15,40 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "solution.h"
 
-#include <boost/program_options.hpp>
-#include <fstream>
 #include <iostream>
-#include <list>
 
-namespace po = boost::program_options;
+#include "utils/args_parser.h"
+#include "utils/input_parser.h"
 
+using aoc2021::utils::ArgsParser;
+using aoc2021::utils::SolutionPart;
 
-int main(int argc, char* argv[]) {
-    po::options_description descs("Options");
+int main(int argc, const char* argv[]) {
+    ArgsParser parser;
 
-    // clang-format off
-    descs.add_options()
-        ("help,h", "Help screen")
-        ("part", po::value<int>()->default_value(1), "Solution part (1 or 2, default 1)")
-        ("fname", po::value<std::string>(), "Input filename");
-    // clang-format on
-
-    po::positional_options_description pos_descs;
-    pos_descs.add("fname", 1);
-
-    po::variables_map vm;
-    po::store(po::command_line_parser(argc, argv).options(descs).positional(pos_descs).run(), vm);
-
-    po::notify(vm);
-
-    if (vm.contains("help")) {
-        std::cout << descs << std::endl;
+    if (!parser.parse(argc, argv)) {
         return 1;
     }
 
-    if (!vm.contains("fname")) {
-        std::cout << "Input file name is required" << std::endl;
-        return 1;
-    }
-
-    int part = vm["part"].as<int>();
-    if ((part != 1) && (part != 2)) {
-        std::cout << "Invalid solution part" << std::endl;
-        return 1;
-    }
-
-    std::ifstream input(vm["fname"].as<std::string>());
     std::list<int> numbers;
-    for (std::string line; std::getline(input, line);)
+    for (const auto& line : aoc2021::utils::parse_file(parser.get_input_filename()))
     {
         numbers.push_back(std::stoi(line));
     }
 
-    size_t result = part == 1 ? aoc2021::day1::solution_part1(numbers) : aoc2021::day1::solution_part2(numbers);
+    size_t result{0};
+    switch (parser.get_part()) {
+        case SolutionPart::PART_1:
+            result = aoc2021::day1::solution_part1(numbers);
+            break;
+
+        case SolutionPart::PART_2:
+            result = aoc2021::day1::solution_part2(numbers);
+            break;
+
+        default:
+            return 1;
+    }
+
     std::cout << "result: " << result << std::endl;
 }
