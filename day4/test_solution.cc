@@ -39,10 +39,10 @@ const std::list<std::string> test_input{"7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,
                                         "2  0 12  3  7",
                                         ""};
 
-TEST(Solution1, TestSolution1) {
+TEST(Day4, TestSolution1) {
     EXPECT_EQ(aoc2021::day4::solution_part1(test_input), 4512);
 }
 
-TEST(Solution2, TestSolution2) {
+TEST(Day4, TestSolution2) {
     EXPECT_EQ(aoc2021::day4::solution_part2(test_input), 1924);
 }
