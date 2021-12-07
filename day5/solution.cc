@@ -33,9 +33,9 @@ struct Line {
     bool is_straight() const { return (x1 == x2) || (y1 == y2); }
 };
 
-class Context {
+class Lanternfish {
 public:
-    Context(size_t width, size_t height) : width_(width), height_(height) {
+    Lanternfish(size_t width, size_t height) : width_(width), height_(height) {
         matrix_.resize(width * height);
         std::fill(matrix_.begin(), matrix_.end(), 0);
     }
@@ -115,7 +115,7 @@ uint32_t solution_part1(const std::list<std::string>& input) {
     size_t width = std::max(std::ranges::max(filtered, {}, &Line::x1).x1, std::ranges::max(filtered, {}, &Line::x2).x2);
     size_t height = std::max(std::ranges::max(filtered, {}, &Line::y1).y1, std::ranges::max(filtered, {}, &Line::y2).y2);
 
-    Context ctx(width+1, height+1);
+    Lanternfish ctx(width+1, height+1);
 
     for (const auto& line : filtered) {
         ctx.draw_line(line);
@@ -131,7 +131,7 @@ uint32_t solution_part2(const std::list<std::string>& input) {
     size_t width = std::max(std::ranges::max(lines, {}, &Line::x1).x1, std::ranges::max(lines, {}, &Line::x2).x2);
     size_t height = std::max(std::ranges::max(lines, {}, &Line::y1).y1, std::ranges::max(lines, {}, &Line::y2).y2);
 
-    Context ctx(width+1, height+1);
+    Lanternfish ctx(width+1, height+1);
 
     for (const auto& line : lines) {
         ctx.draw_line(line);
